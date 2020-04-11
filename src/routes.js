@@ -10,10 +10,7 @@ module.exports = (app) => {
   });
   
   app.use('/api/file', require('./api/file'));
-  
-  // app.use('/api/movies', require('./api/movie'));
   app.use('/api/user', require('./api/user'));
-  // app.use('/api/genre', require('./api/genre'));
 
   app.use((e, req, res, next) => {
     logger.error(e);

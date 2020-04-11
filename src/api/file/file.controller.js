@@ -122,9 +122,35 @@ async function show(req, res, next) {
     }
 }
 
+async function update(req, res, next) {
+    try {
+        const body = req.body;
+        const _id = req.params.id;
+        const reqUser = req.user;
+
+        await FileModel.findOneAndUpdate(
+            {
+                _id,
+            },
+            {
+                $set: {
+                    contents: body.contents,
+                    updated_by: reqUser._id,
+                    updated_on : new Date(),
+                },
+            },
+        );
+
+        return res.sendStatus(204);
+    } catch (err) {
+        return next(err);
+    }
+}
+
 module.exports = {
     index,
     create,
     share,
     show,
+    update
 };

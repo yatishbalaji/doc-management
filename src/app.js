@@ -28,6 +28,7 @@ process.on('uncaughtException', (err) => {
 mongoose.connect(config.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 }, function(err) {
   if (err) return logger.error(err);
 

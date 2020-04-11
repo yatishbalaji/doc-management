@@ -11,7 +11,7 @@ router.get('/:id', controller.show);
 
 router.post('/', controller.create);
 
-// router.put('/:id', controller.update);
+router.put('/:id', controller.update);
 router.put('/:id/share', controller.share);
 
 // router.delete('/:id', controller.remove);
