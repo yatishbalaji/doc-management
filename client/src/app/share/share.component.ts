@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,10 +26,10 @@ export class ShareComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public modalData: any,
   ) {
     this.shareFormGrp = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [
+        Validators.required, this.requireMatch.bind(this),
+      ]),
     });
-
-    console.log(modalData);
   }
 
   ngOnInit(): void {
@@ -53,8 +53,19 @@ export class ShareComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  private requireMatch(control: FormControl): ValidationErrors | null {
+    const selection: any = control.value;
+    if (this.data && !this.data.some(d => d._id === selection)) {
+      return { requireMatch: true };
+    }
+    return null;
+  } 
+
   selected(event: MatAutocompleteSelectedEvent, user: any) {
-    this.postData = user; 
+    this.postData = user;
+    this.shareFormGrp.setValue({
+      name: user.name,
+    });
   }
 
   onSubmit() {

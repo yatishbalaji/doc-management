@@ -53,10 +53,7 @@ async function create(req, res, next) {
 async function index(req, res, next) {
     try {
         const users = await UserModel.find()
-            .then(users => users.map((u) => ({
-                _id: u._id,
-                name: u.name,
-            }), {}));
+            .select({ name: 1 });
 
         return res.json(users);
     } catch (err) {

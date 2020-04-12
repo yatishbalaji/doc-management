@@ -36,3 +36,8 @@ table {
     padding-right: 8px;
   }
 }
+
+::ng-deep .my-tooltip {
+  text-align: center;
+  white-space: pre-line;
+}

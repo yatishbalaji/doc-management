@@ -31,11 +31,11 @@
             <span *ngFor="let user of row.users">
                 <mat-chip
                     [ngStyle]="getChipColor(user.name)"
+                    matTooltipClass="my-tooltip"
                     matTooltip="{{user.name}}{{
                       user.accessed_on
-                      ? (', ' + (user.accessed_on | date: 'dd/MM/yyyy'))
-                      : ''
-                  }}" 
+                      ? ('\n Last Viewed: ' + (user.accessed_on | date: 'dd/MM/yyyy h:mm a'))
+                      : ''}}" 
                 >
                   {{user.name.substring(0, 1) | uppercase}}
                 </mat-chip>
