@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError, ReplaySubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) {
     if (this.isLoggedIn()) {
       this.setAuth();
@@ -48,7 +50,7 @@ export class AuthService {
   login(data: object): Observable<any> {
     const body = this.transformToFormData(data);
 
-    return this.http.post(`http://localhost:5000/api/user/login`, body, {
+    return this.http.post(`/api/user/login`, body, {
       headers: this.headers.append('ignoreAuthModule', 'true'),
     })
       .pipe(map(
@@ -65,5 +67,6 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.purgeAuth();
+    this.router.navigateByUrl(`/login`);
   }
 }

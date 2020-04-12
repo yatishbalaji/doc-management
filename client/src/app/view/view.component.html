@@ -13,10 +13,13 @@
         <input matInput placeholder="Document Name" formControlName="name"
         >
       </mat-form-field>
+      <button mat-button *ngIf="docId" type="button" (click)="shareDoc()" style="float: right;margin: 15px;">
+        <mat-icon>share</mat-icon>
+      </button>
       <mat-chip-list #chipList aria-label="Users shared to" style="float: right;margin: 15px;">
         <span *ngFor="let user of data.users">
             <mat-chip
-              color="primary"
+              [ngStyle]="getChipColor(user.name)"
               matTooltipClass="my-tooltip"
               matTooltip="{{user.name}}{{
                 user.accessed_on
@@ -41,7 +44,7 @@
     </div>
     <button mat-raised-button color="primary" [disabled]="!viewFormGroup.valid" type="submit"
     style="margin-bottom:15px;"
-    >Update</button>
+    >{{docId ? "Update": "Create"}}</button>
     <mat-error class="mt-15" *ngIf="errMsg">{{errMsg}}</mat-error>
   </form>
 </div>

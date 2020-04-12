@@ -19,7 +19,7 @@ export class HomeComponent implements AfterViewInit {
   isLoadingResults: boolean = true;
   resultsLength: number = 0;
   data: any[];
-  search = '';
+  users: any[];
   displayedColumns: string[] = [
     'name', 'created_by', 'created_on', 'users'
   ];
@@ -42,46 +42,42 @@ export class HomeComponent implements AfterViewInit {
     this.clickStream.subscribe(() => this.paginator.pageIndex = 0);
 
     merge(this.sort.sortChange, this.paginator.page, this.clickStream)
-    .pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this.docDatabase.getDocs(
-          this.sort.active,
-          this.sort.direction,
-          this.paginator.pageIndex,
-          this.search,
-        );
-      }),
-      map(data => {
-        this.isLoadingResults = false;
-        this.resultsLength = data.length;
-        return data;
-      }),
-      catchError(() => {
-        this.isLoadingResults = false;
-        return observableOf([]);
-      })
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.docDatabase.getDocs(
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+          );
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.resultsLength = data.data.length;
+          this.users = data.users;
+          return data.data;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          return observableOf([]);
+        })
       ).subscribe(data => this.docSource.data = data);
   }
-  ngOnInit(): void {
-    
-  }
 
-  removeMovie(row, index) {
-    this._httpClient.delete(`http://localhost:5000/api/movies/${row._id}`)
-      .pipe(
-        map(res => res),
-        catchError((err) => throwError(err))
-      )
-      .subscribe(
-        () => {
-          this.docSource.data.splice(index, 1);
-          this.docSource._updateChangeSubscription();
-          this.showError('Movie deleted successfully');
-        },
-        (err) => this.showError('Something went wrong')
-      );
+  getChipColor(name) {
+    let color = '#ed3800';
+    const x = name[0];
+    switch (true) {
+      case (x > 'P'):
+          color = '#82b846'; 
+          break;
+      case (x > 'G'):
+          color = '#f9ad0b';
+          break;
+    }
+
+    return {'background-color': color};
   }
 
   showError(msg) {
@@ -97,11 +93,11 @@ export class DocHttpDatabase {
   constructor(private _httpClient: HttpClient) { }
 
   getDocs(
-    sort: string, order: string, page: number, search: string
+    sort: string, order: string, page: number
   ): Observable<any> {
-    const href = 'http://localhost:5000/api/file';
+    const href = '/api/file';
     const requestUrl =
-      `${href}?search=${search}&sort=${sort}&order=${order}&page=${page + 1}`;
+      `${href}?sort=${sort}&order=${order}&page=${page + 1}`;
 
     return this._httpClient.get<any>(requestUrl);
   }

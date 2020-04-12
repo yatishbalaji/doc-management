@@ -14,6 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ViewComponent } from './view/view.component';
 import { HttpTokenInterceptor } from './http.interceptor';
 import { UserComponent } from './user/user.component';
+import { ShareComponent } from './share/share.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TextFieldModule } from '@angular/cdk/text-field';
 
@@ -23,7 +24,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     LoginComponent,
     HomeComponent,
     ViewComponent,
-    UserComponent
+    UserComponent,
+    ShareComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { ObjectId } = require('mongoose').Types;
 
 const FileModel = require('./file.model');
+const UserModel = require('../user/user.model');
 
 async function index(req, res, next) {
     try {
@@ -17,11 +18,17 @@ async function index(req, res, next) {
             }],
         });
 
-        const data = await FileModel.find(query)
+        let data = await FileModel.find(query)
             .skip((page - 1) * 10)
             .limit(10);
+        
+        const users = await UserModel.find({
+            _id: { $in: data.map(doc => doc.created_by) }
+        }).then(users => users.reduce((acc, u) => (
+            Object.assign(acc, { [u._id]: u.name })
+        ), {}));
 
-        return res.json(data);
+        return res.json({ data, users });
     } catch (err) {
         return next(err);
     }
@@ -50,7 +57,7 @@ async function create(req, res, next) {
             }]
         });
 
-        return res.json(data);
+        return res.status(201).json(data);
     } catch (err) {
         return next(err);
     }

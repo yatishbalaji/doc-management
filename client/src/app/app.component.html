@@ -93,11 +93,21 @@
 
     <span>Doc App</span>
   </a>
+  <div style='margin-left: 50px;'>
+    <a href='/' fxLayout="row" style="color: white">
+      <span>List</span>
+    </a>
+  </div>
+  <div style='margin-left: 50px;'>
+    <a href='/doc' fxLayout="row" style="color: white">
+      <span>Create Doc</span>
+    </a>
+  </div>
   <div class="spacer"></div>
   <div *ngIf="isLoggedIn">
     <button mat-button [matMenuTriggerFor]="menu">
       <span>{{name | titlecase}}</span>
-      <mat-icon aria-hidden="false" aria-label="Example home icon">expand_more</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="Doc home icon">expand_more</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="addUser()">Add User</button>

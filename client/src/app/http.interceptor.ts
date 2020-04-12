@@ -29,19 +29,20 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let req = request;
+
+    // handle url request without domain to api server
+    if (req.url[0] === '/') {
+      Object.assign(req, {
+        url: `http://localhost:5000${req.url}`,
+        urlWithParams: `http://localhost:5000${req.urlWithParams}`
+      });
+    }
+
     if (req.headers.get('ignoreAuthModule') === 'true') {
       return next.handle(req);
     }
 
     req = this.addAuthorizationHeader(req);
-
-    
-    // handle url request without domain to api server
-    if (req.url[0] === '/') {
-      Object.assign(req, {
-        url: `http://localhost:5000${req.url}`,
-      });
-    }
 
     return next.handle(req)
       .pipe(catchError(x => this.handleAuthError(x)));;

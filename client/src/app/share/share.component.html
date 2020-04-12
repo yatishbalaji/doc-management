@@ -1,0 +1,26 @@
+<div class="user-container">
+    <p>Share Doc</p>
+    <form [formGroup]="shareFormGrp" (ngSubmit)="onSubmit()" fxLayout="column">
+        <mat-form-field class="example-full-width">
+            <input type="text"
+                placeholder="Share with"
+                matInput
+                formControlName="name"
+                [matAutocomplete]="auto"
+            >
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of data"
+                    (onSelectionChange)="selected($event, option)"   
+                    [value]="option.name"
+                >
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <div class="mt-15">
+            <button mat-raised-button type="button" (click)="close()">Cancel</button>
+            <button class="ml-15" mat-raised-button color="primary" [disabled]="!shareFormGrp.valid" type="submit">Share</button>
+        </div>
+        <mat-error class="mt-15" *ngIf="errMsg">{{errMsg}}</mat-error>
+    </form>
+</div>

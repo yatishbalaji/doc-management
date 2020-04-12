@@ -16,7 +16,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: ':id',
+    path: 'doc',
+    component: ViewComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'doc/:id',
     component: ViewComponent,
     pathMatch: 'full'
   },
