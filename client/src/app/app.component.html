@@ -93,12 +93,12 @@
 
     <span>Doc App</span>
   </a>
-  <div style='margin-left: 50px;'>
+  <div *ngIf="isLoggedIn" style='margin-left: 50px;'>
     <a href='/' fxLayout="row" style="color: white">
       <span>List</span>
     </a>
   </div>
-  <div style='margin-left: 50px;'>
+  <div *ngIf="isLoggedIn" style='margin-left: 50px;'>
     <a href='/doc' fxLayout="row" style="color: white">
       <span>Create Doc</span>
     </a>

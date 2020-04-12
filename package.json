@@ -34,5 +34,8 @@
   },
   "bugs": {
     "url": "https://github.com/yatishbalaji/postman-docs/issues"
+  },
+  "engines": {
+    "node": "10.13"
   }
 }
