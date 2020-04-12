@@ -150,6 +150,7 @@ async function update(req, res, next) {
             {
                 $set: {
                     contents: body.contents,
+                    name: body.name,
                     updated_by: reqUser._id,
                     updated_on : new Date(),
                 },
