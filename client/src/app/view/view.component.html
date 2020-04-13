@@ -32,18 +32,14 @@
       </mat-chip-list>
     </div>
     <div style="border-top: solid 0.2px gray;">
-      <mat-form-field style="width: 100%;">
-        <textarea
-          matInput
-          formControlName="contents"
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="10"
-          cdkAutosizeMaxRows="500"
-        ></textarea>
-      </mat-form-field>
+      <angular-editor
+        class="customAngularEditor"
+        formControlName="contents"
+        [config]="editorConfig"
+      ></angular-editor>
     </div>
     <button mat-raised-button color="primary" [disabled]="!viewFormGroup.valid" type="submit"
-    style="margin-bottom:15px;"
+    style="margin-bottom:15px; margin-top: 15px;"
     >{{docId ? "Update": "Create"}}</button>
     <mat-error class="mt-15" *ngIf="errMsg">{{errMsg}}</mat-error>
   </form>

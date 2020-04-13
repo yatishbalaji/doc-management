@@ -16,7 +16,7 @@ import { HttpTokenInterceptor } from './http.interceptor';
 import { UserComponent } from './user/user.component';
 import { ShareComponent } from './share/share.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TextFieldModule } from '@angular/cdk/text-field';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    AngularEditorModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
